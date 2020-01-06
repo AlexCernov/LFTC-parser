@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -9,19 +10,19 @@ namespace Lab4.Models
     {
         public List<string> NonTerminals;
         public List<string> Terminals;
-        public List<KeyValuePair<string, string>> Productions;
+        public List<KeyValuePair<string, List<string>>> Productions;
         public string Symbol;
         private string _filename;
 
         public Grammar()
         {
-            Productions = new List<KeyValuePair<string, string>>();
+            Productions = new List<KeyValuePair<string, List<string>>>();
 
         }
 
         public Grammar(string filename)
         {
-            Productions = new List<KeyValuePair<string, string>>();
+            Productions = new List<KeyValuePair<string, List<string>>>();
             _filename = filename;
             setGrammar();
 
@@ -43,7 +44,7 @@ namespace Lab4.Models
             for (int i = 0; i < elements.Length; i++)
             {
                 elements[i] = elements[i].Replace("{", "").Replace(" ", "").Replace("}", "");
-                if (Regex.IsMatch(elements[i], @"^[a-zA-Z][a-zA-Z]*$"))
+                if (Regex.IsMatch(elements[i], @"^[0-9]|[a-zA-Z][a-zA-Z]*$"))
                     symbols.Add(elements[i]);
             }
 
@@ -68,21 +69,23 @@ namespace Lab4.Models
                     string[] rhs = rhsNotParsed.Split('|');
                     foreach (var element in rhs)
                     {
-                        grammar.Productions.Add(new KeyValuePair<string, string>(lhs.Trim(), element.Trim()));
+                        var prod_list = element.Split(" ").ToList();
+                        prod_list.RemoveAll(x => x.Equals(""));
+                        grammar.Productions.Add(new KeyValuePair<string, List<string>>(lhs.Trim(), prod_list));
                     }
                     i++;
                 }
                 return grammar;
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
 
 
         }
-      
+
         public bool IsRegular()
         {
             List<string> usedInRhs = new List<string>();
@@ -91,23 +94,23 @@ namespace Lab4.Models
             foreach (var rule in Productions)
             {
                 string lhs = rule.Key;
-                string rhs = rule.Value;
+                var rhs = rule.Value;
                 bool hasTerminal = false;
                 bool hasNonTerminal = false;
-                foreach (char ch in rhs)
+                foreach (var ch in rhs)
                 {
-                    if (this.IsNonTerminal(ch.ToString()))
+                    if (this.IsNonTerminal(ch))
                     {
                         usedInRhs.Add(ch.ToString());
                         hasNonTerminal = true;
                     }
-                    else if (this.IsTerminal(ch.ToString()))
+                    else if (this.IsTerminal(ch))
                     {
                         if (hasNonTerminal)
                             return false;
                         hasTerminal = true;
                     }
-                    if (ch == 'e')
+                    if (ch == "e")
                     {
                         if (lhs != Symbol) return false;
                         else ok = true;
@@ -119,13 +122,13 @@ namespace Lab4.Models
             if (ok && usedInRhs.Contains(Symbol)) return false;
             return true;
         }
-        public List<KeyValuePair<string, string>> GetProductionsForNonTerminal(string symbol)
+        public List<KeyValuePair<string,List<string>>> GetProductionsForNonTerminal(string symbol)
         {
             if (!IsNonTerminal(symbol))
                 return null;
             else
             {
-                var returnList = new List<KeyValuePair<string, string>>();
+                var returnList = new List<KeyValuePair<string, List<string>>>();
                 foreach (var pair in Productions)
                 {
                     if (pair.Key.Equals(symbol))
@@ -153,7 +156,7 @@ namespace Lab4.Models
                 string[] rhs = rhsNotParsed.Split('|');
                 foreach (var element in rhs)
                 {
-                    this.Productions.Add(new KeyValuePair<string, string>(lhs, element));
+                    Productions.Add(new KeyValuePair<string, List<string>>(lhs.Trim(), element.Split(" ").ToList()));
                 }
                 i++;
             }
