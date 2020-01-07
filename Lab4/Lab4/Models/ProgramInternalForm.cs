@@ -28,5 +28,15 @@ namespace Lab4.Models
             }
             return returnValue.ToString();
         }
+
+        public List<int> CodeList()
+        {
+            var returnList = new List<int>();
+            foreach (var item in pif)
+            {
+                returnList.Add(item.Key);
+            }
+            return returnList;
+        }
     }
 }

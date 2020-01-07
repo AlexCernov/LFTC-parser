@@ -22,6 +22,7 @@ namespace Lab4.Models
 
         public dynamic Pop()
         {
+            if (workStack.Count == 1) return Peek();
             var element = Peek();
             workStack = new List<dynamic>(workStack.GetRange(0, workStack.Count - 2));
             return element;

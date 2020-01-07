@@ -37,6 +37,7 @@ namespace Lab4
                     {
                         if (tokens[i] != " " && tokens[i] != "-")
                         {
+                            pif.Add(scanner.codeTable[tokens[i]], -1);
                             i++;
                         }
                         else if (tokens[i] == " ")
@@ -97,7 +98,13 @@ namespace Lab4
             Scanner();
             InitiateGrammar();
             Controller.Controller.Grammar = Grammar;
-            //Controller.Controller.Parser(pif);
+            pif.CodeList().ForEach(x => Console.Write(x + " "));
+            var pifString = new List<string>();
+            foreach (var item in pif.CodeList())
+            {
+                pifString.Add(item.ToString());
+            }
+            Controller.Controller.Parser(pifString);
             Console.WriteLine("end");
 
         }

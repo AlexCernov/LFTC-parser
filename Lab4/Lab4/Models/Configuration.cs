@@ -10,14 +10,14 @@ namespace Lab4.Models
         public State State { get; set; }
         public int Index { get; set; }
         public WorkStack<dynamic> WorkStack { get; set; }
-        public Stack<string> InputStack { get; set; }
+        public InputStack InputStack { get; set; }
 
         public Configuration(string symbol)
         {
             State = State.NORMAL;
             Index = 0;
             WorkStack = new WorkStack<dynamic>();
-            InputStack = new Stack<string>();
+            InputStack = new InputStack();
             InputStack.Push(symbol);
         }
     }
