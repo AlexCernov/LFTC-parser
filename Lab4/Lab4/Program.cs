@@ -98,14 +98,12 @@ namespace Lab4
             Scanner();
             InitiateGrammar();
             Controller.Controller.Grammar = Grammar;
+            Console.WriteLine("Program internal form:");
             pif.CodeList().ForEach(x => Console.Write(x + " "));
-            var pifString = new List<string>();
-            foreach (var item in pif.CodeList())
-            {
-                pifString.Add(item.ToString());
-            }
-            Controller.Controller.Parser(pifString);
-            Console.WriteLine("end");
+            Console.WriteLine();
+            Console.WriteLine("Production string");
+            Controller.Controller.Parser(pif.CodeList());
+            Console.WriteLine("End");
 
         }
     }

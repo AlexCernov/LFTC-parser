@@ -29,12 +29,12 @@ namespace Lab4.Models
             return returnValue.ToString();
         }
 
-        public List<int> CodeList()
+        public List<string> CodeList()
         {
-            var returnList = new List<int>();
+            var returnList = new List<string>();
             foreach (var item in pif)
             {
-                returnList.Add(item.Key);
+                returnList.Add(item.Key.ToString());
             }
             return returnList;
         }

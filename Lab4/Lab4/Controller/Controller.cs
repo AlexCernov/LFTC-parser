@@ -140,9 +140,21 @@ namespace Lab4.Controller
             if(config.State == State.ERROR)
                 Console.WriteLine("Error");
             else
-                foreach(var prod in config.WorkStack.getForPrint())
-                    if(Grammar.Productions.Contains(prod))
-                        Console.WriteLine(prod);
+            {
+                var workStack = config.WorkStack.getForPrint();
+                foreach (var prod in workStack)
+                    if ( prod.GetType() == typeof(KeyValuePair<string,List<string>>) )
+                    {
+                        StringBuilder printer = new StringBuilder();
+                        printer.Append(prod.Key + "-> ");
+                        foreach (string item in prod.Value)
+                        {
+                            printer.Append(item + " ");
+                        }
+                        Console.WriteLine(printer);
+                    }
+            }
+                
 
         }
 
