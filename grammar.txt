@@ -1,0 +1,23 @@
+N={ program, type, compound_stmt, stmt_list, stmt, decl, assign, expr, arraydecl, op, return, iostmt, input, output, loop, condition, relation_op, if_stmt }
+E={ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, e }
+S= program
+P={ 
+	program -> 2 9 13 14 compound_stmt,
+	type -> 2 | 3 | 4,
+	compound_stmt -> 10 stmt_list 11,
+	stmt_list -> stmt stmt_list | e,
+	stmt -> decl | assign | if_stmt | return | loop | iostmt,
+	decl -> type 0 26 expr 12,
+	arraydecl -> type 0 30 1 31,
+	assign -> 0 26 expr 12,
+	expr -> 0 | 1,
+	op -> 15 | 16 | 17 | 18 | 19,
+	return -> 32 expr 12,
+	iostmt -> input | output,
+	input -> 4 0 12,
+	output -> 5 0 12,
+	loop -> 8 13 condition 14 compound_stmt,
+	condition -> expr relation_op expr,
+	relation_op -> 20 | 21 | 22 | 23 | 24 | 25 | 27 | 28,
+	if_stmt -> 6 13 condition 14 compound_stmt | 6 13 condition 14 compound_stmt 7 13 condition 14 compound_stmt,
+}

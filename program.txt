@@ -1,0 +1,21 @@
+﻿int main()
+{
+	int a =3;
+	int b =5;
+	if(a>5) 
+		{
+		a = 10;
+		b = 4;
+		}
+	else ( 5 < a )
+	{
+	a= 23;
+	b= 120;
+	}
+	while(b != 0)
+	{
+	 read b;
+	 print a;
+	}
+	return 0;
+}
