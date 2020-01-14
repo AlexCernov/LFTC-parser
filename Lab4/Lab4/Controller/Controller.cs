@@ -111,8 +111,8 @@ namespace Lab4.Controller
                             {
                                 // daca nu, atunci adaugam productia care urmeaza in workStack
                                 config.State = State.NORMAL;
-                                config.WorkStack.Add(nextProduction);
                                 config.WorkStack.Pop();
+                                config.WorkStack.Add(nextProduction);
                                 // stergem atatea elemente din inputStack cat numarul elementelor din set of production
                                 var states = lastProduction.Value.Count;
                                 while (states != 0) { states--; config.InputStack.Pop();  }

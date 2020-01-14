@@ -17,14 +17,24 @@ namespace Lab4.Models
 
         public dynamic Peek()
         {
-            return workStack[workStack.Count - 1];
+            try
+            {
+                return workStack[workStack.Count - 1];
+
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.StackTrace);
+                throw e;
+            }
         }
 
         public dynamic Pop()
         {
             if (workStack.Count == 1) return Peek();
             var element = Peek();
-            workStack = new List<dynamic>(workStack.GetRange(0, workStack.Count - 2));
+            workStack.RemoveAt(workStack.Count-1);
             return element;
         }
 
